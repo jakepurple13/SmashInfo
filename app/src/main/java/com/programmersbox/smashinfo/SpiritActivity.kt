@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.programmersbox.dragswipe.DragSwipeAdapter
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
+import com.programmersbox.helpfulutils.gone
 import com.programmersbox.helpfulutils.layoutInflater
 import com.programmersbox.helpfulutils.setCustomTitle
 import com.programmersbox.helpfulutils.setView
@@ -94,8 +95,10 @@ class SpiritActivity : AppCompatActivity() {
         val id = itemView.spiritId!!
         private val icon = itemView.spiritIcon!!
         private val card = itemView.spiritCard!!
+        private var imageColor: Int? = null
 
         fun load(item: Spirit?) {
+            icon.gone()
             name.text = item?.name
             id.text = "${item?.id}"
             Glide.with(itemView)
@@ -105,14 +108,20 @@ class SpiritActivity : AppCompatActivity() {
                     override fun onLoadCleared(placeholder: Drawable?) {}
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         image.setImageBitmap(resource)
-                        Palette.from(resource).generate().dominantSwatch?.rgb?.let { card.setCardBackgroundColor(it) }
+                        Palette.from(resource).generate().dominantSwatch?.rgb?.let {
+                            card.setCardBackgroundColor(it)
+                            imageColor = it
+                        }
                     }
                 })
             itemView
                 .clicks()
                 .collectOnUi {
                     MaterialAlertDialogBuilder(itemView.context)
-                        .setCustomTitle(R.layout.character_custom_title) { charName.text = item?.name }
+                        .setCustomTitle(R.layout.character_custom_title) {
+                            charName.text = item?.name
+                            imageColor?.let { it1 -> setBackgroundColor(it1) }
+                        }
                         .setMessage(item?.description)
                         .show()
                 }
