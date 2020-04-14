@@ -14,7 +14,7 @@ class CharacterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character)
 
-        characters = intent.getObjectExtra("character", SmashCharacters())
+        characters = intent.getObjectExtra<SmashCharacters>("character", null)
 
         Glide.with(this)
             .load(characters?.MainImageUrl)

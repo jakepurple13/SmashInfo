@@ -26,6 +26,7 @@ import com.programmersbox.flowutils.collectOnUi
 import com.programmersbox.flowutils.longClicks
 import com.programmersbox.gsonutils.getObjectExtra
 import com.programmersbox.helpfulutils.requestPermissions
+import com.programmersbox.helpfulutils.setCustomTitle
 import com.programmersbox.helpfulutils.setEnumSingleChoiceItems
 import com.programmersbox.helpfulutils.setView
 import com.programmersbox.loggingutils.Loged
@@ -36,7 +37,6 @@ import kotlinx.android.synthetic.main.character_item.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-
 class MainActivity : AppCompatActivity() {
 
     private val adapter = CharacterAdapter(mutableListOf(), Game.values().random())
@@ -45,15 +45,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        requestPermissions(Manifest.permission.INTERNET) {
-            if (it.isGranted) Loged.r("Permissions granted")
-        }
+        requestPermissions(Manifest.permission.INTERNET) { if (it.isGranted) Loged.r("Permissions granted") }
 
         characterRV.adapter = adapter
 
         DragSwipeUtils.setDragSwipeUp(adapter, characterRV, listOf(Direction.UP, Direction.DOWN))
 
-        loadGames(intent.getObjectExtra("gameType", adapter.type))
+        loadGames(intent.getObjectExtra("gameType", adapter.type)!!)
 
         gameType
             .clicks()
@@ -107,10 +105,10 @@ class MainActivity : AppCompatActivity() {
                 .clicks()
                 .collectOnUi {
                     MaterialAlertDialogBuilder(this@MainActivity)
-                        .setCustomTitle(layoutInflater.inflate(R.layout.character_custom_title, null, false).apply {
+                        .setCustomTitle(R.layout.character_custom_title) {
                             item.ColorTheme?.toColorInt()?.let(this::setBackgroundColor)
                             charName.text = item.DisplayName
-                        })
+                        }
                         .setView(R.layout.character_full_info) {
                             item.ColorTheme?.toColorInt()?.let(this::setBackgroundColor)
                             Glide.with(this@MainActivity)
