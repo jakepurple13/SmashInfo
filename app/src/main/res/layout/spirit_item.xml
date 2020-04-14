@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/spiritImage"
+            android:layout_width="244px"
+            android:layout_height="544px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/full_info" />
+
+        <ImageView
+            android:id="@+id/spiritIcon"
+            android:layout_width="256px"
+            android:layout_height="256px"
+            app:layout_constraintStart_toEndOf="@id/spiritName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/spiritId"
+            style="@style/ColorText.Digit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintBottom_toTopOf="@id/spiritIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/spiritName"
+            style="@style/ColorText.Digit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textSize="30sp"
+            android:layout_marginHorizontal="5dp"
+            android:gravity="start|center"
+            app:layout_constraintBottom_toBottomOf="@id/spiritImage"
+            app:layout_constraintEnd_toStartOf="@id/spiritIcon"
+            app:layout_constraintStart_toEndOf="@id/spiritImage"
+            app:layout_constraintTop_toTopOf="@id/spiritImage"
+            tools:text="Mario" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -2,6 +2,7 @@ package com.programmersbox.smashinfo
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     .show()
             }
+
+        spiritList
+            .clicks()
+            .collectOnUi { startActivity(Intent(this, CharacterActivity::class.java)) }
 
     }
 

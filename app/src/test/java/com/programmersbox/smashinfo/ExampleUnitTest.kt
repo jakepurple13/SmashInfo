@@ -1,5 +1,6 @@
 package com.programmersbox.smashinfo
 
+import com.programmersbox.gsonutils.getApi
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -19,5 +20,14 @@ class ExampleUnitTest {
     @Test
     fun other() {
         println(getCharacters())
+    }
+
+    @Test
+    fun other2() {
+        var loadCount = 0
+        //val f = getApi("https://smashultimatespirits.com/actions/load_more.php?offset=$loadCount")
+        //println(f)
+        val f = SpiritApi.getSpirits(loadCount)
+        println(f.joinToString("\n"))
     }
 }
