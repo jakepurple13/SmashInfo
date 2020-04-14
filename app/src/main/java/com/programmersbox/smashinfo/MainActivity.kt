@@ -66,9 +66,13 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
 
+        /*spiritList
+            .clicks()
+            .collectOnUi { startActivity(Intent(this, CharacterActivity::class.java)) }*/
+
         spiritList
             .clicks()
-            .collectOnUi { startActivity(Intent(this, CharacterActivity::class.java)) }
+            .collectOnUi { startActivity(Intent(this, SpiritActivity::class.java)) }
 
     }
 

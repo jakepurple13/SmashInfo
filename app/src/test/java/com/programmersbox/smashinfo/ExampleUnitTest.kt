@@ -25,9 +25,17 @@ class ExampleUnitTest {
     @Test
     fun other2() {
         var loadCount = 0
-        //val f = getApi("https://smashultimatespirits.com/actions/load_more.php?offset=$loadCount")
-        //println(f)
         val f = SpiritApi.getSpirits(loadCount)
-        println(f.joinToString("\n"))
+        val f1 = (0..10).flatMap { SpiritApi.getSpirits(it) }
+        val f2 = f1.groupBy(Spirit::game)
+        println(f2.entries.joinToString("\n") { "${it.key} has ${it.value.size}" })
+    }
+
+    @Test
+    fun other3() {
+        val f = SpiritApi.getAllSpirits()
+        //println(f?.joinToString("\n"))
+        val f1 = f?.groupBy { it.series }
+        println(f1?.entries?.joinToString("\n") { "${it.key} has ${it.value.size}" })
     }
 }
