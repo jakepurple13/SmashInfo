@@ -80,7 +80,7 @@ class SpiritActivity : AppCompatActivity() {
                     .toList()
                 runOnUiThread { adapter.addItems(spirits) }
                 runOnUiThread { sortLayout.check(idSort.id) }
-            } catch(e: Exception) {
+            } catch (e: Exception) {
             } finally {
                 runOnUiThread { spiritCount.text = "${spiritList?.size ?: 0}" }
             }
@@ -131,7 +131,7 @@ class SpiritActivity : AppCompatActivity() {
                 }
         }
 
-        private fun List<Int>.nonBreakingRanges() = let { list ->
+        private fun List<Int>.nonBreakingRanges() = sortedBy { it }.let { list ->
             var lastRange = mutableListOf<Int>()
             list.map {
                 val previousElement = lastRange.lastOrNull() ?: it

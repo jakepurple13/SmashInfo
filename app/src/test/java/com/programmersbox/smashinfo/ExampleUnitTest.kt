@@ -1,9 +1,7 @@
 package com.programmersbox.smashinfo
 
-import com.programmersbox.gsonutils.getApi
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -24,7 +22,7 @@ class ExampleUnitTest {
 
     @Test
     fun other2() {
-        var loadCount = 0
+        val loadCount = 0
         val f = SpiritApi.getSpirits(loadCount)
         val f1 = (0..10).flatMap { SpiritApi.getSpirits(it) }
         val f2 = f1.groupBy(Spirit::game)
