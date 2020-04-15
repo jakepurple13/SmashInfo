@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.programmersbox.dragswipe.DragSwipeAdapter
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
+import com.programmersbox.flowutils.textChange
 import com.programmersbox.helpfulutils.gone
 import com.programmersbox.helpfulutils.layoutInflater
 import com.programmersbox.helpfulutils.setCustomTitle
@@ -31,18 +32,32 @@ import kotlinx.coroutines.launch
 class SpiritActivity : AppCompatActivity() {
 
     private val adapter = SpiritGameAdapter(mutableListOf(), this)
+    private val searchAdapter = SpiritAdapter(mutableListOf(), this)
+    private var spiritList: List<Spirit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spirit)
         spiritGameRV.adapter = adapter
         loadSpirits()
+
+        search_info
+            .textChange()
+            .collectOnUi { search ->
+                if (search.isNullOrBlank()) spiritGameRV.adapter = adapter
+                else {
+                    spiritList
+                        ?.filter { it.name.contains(search, true) || it.game.contains(search, true) }
+                        ?.let(searchAdapter::setListNotify)
+                    if (spiritGameRV.adapter != searchAdapter) spiritGameRV.adapter = searchAdapter
+                }
+            }
     }
 
     private fun loadSpirits() {
         GlobalScope.launch {
             val spirits = SpiritApi.getAllSpirits()
-                ?.map(Spirits::toSpirit)
+                ?.map(Spirits::toSpirit)?.also { spiritList = it }
                 ?.groupBy { GameType(it.game, it.iconUrl) }
                 .orEmpty()
                 .toList()
