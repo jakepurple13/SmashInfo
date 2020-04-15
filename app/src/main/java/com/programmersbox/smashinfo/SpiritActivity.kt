@@ -1,5 +1,6 @@
 package com.programmersbox.smashinfo
 
+import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -17,16 +18,16 @@ import com.programmersbox.dragswipe.DragSwipeAdapter
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
 import com.programmersbox.flowutils.textChange
-import com.programmersbox.helpfulutils.gone
-import com.programmersbox.helpfulutils.layoutInflater
-import com.programmersbox.helpfulutils.setCustomTitle
-import com.programmersbox.helpfulutils.setView
+import com.programmersbox.helpfulutils.*
+import com.programmersbox.loggingutils.Loged
 import kotlinx.android.synthetic.main.activity_spirit.*
 import kotlinx.android.synthetic.main.character_custom_title.view.*
 import kotlinx.android.synthetic.main.spirit_game_item.view.*
 import kotlinx.android.synthetic.main.spirit_game_list_layout.view.*
 import kotlinx.android.synthetic.main.spirit_item.view.*
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 class SpiritActivity : AppCompatActivity() {
@@ -35,21 +36,23 @@ class SpiritActivity : AppCompatActivity() {
     private val searchAdapter = SpiritAdapter(mutableListOf(), this)
     private var spiritList: List<Spirit>? = null
 
+    @FlowPreview
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spirit)
+        requestPermissions(Manifest.permission.INTERNET) { if (it.isGranted) Loged.r("Permissions granted") }
         spiritGameRV.adapter = adapter
         loadSpirits()
-
         search_info
             .textChange()
+            .debounce(500)
             .collectOnUi { search ->
                 if (search.isNullOrBlank()) spiritGameRV.adapter = adapter
                 else {
+                    if (spiritGameRV.adapter != searchAdapter) spiritGameRV.adapter = searchAdapter
                     spiritList
                         ?.filter { it.name.contains(search, true) || it.game.contains(search, true) || "${it.id}".contains(search) }
                         ?.let(searchAdapter::setListNotify)
-                    if (spiritGameRV.adapter != searchAdapter) spiritGameRV.adapter = searchAdapter
                 }
             }
     }
@@ -65,6 +68,7 @@ class SpiritActivity : AppCompatActivity() {
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------------------------------------
     data class GameType(val name: String, val icon: String)
 
     class SpiritGameAdapter(dataList: MutableList<Pair<GameType, List<Spirit>>>, private val context: Context) :
@@ -97,6 +101,7 @@ class SpiritActivity : AppCompatActivity() {
         val sizeText = itemView.spiritGameSize!!
     }
 
+    //------------------------------------------------------------------------------------------------------------------------------------------------
     class SpiritAdapter(dataList: MutableList<Spirit>, private val context: Context) : DragSwipeAdapter<Spirit, SpiritHolder>(dataList) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpiritHolder =
             SpiritHolder(context.layoutInflater.inflate(R.layout.spirit_item, parent, false))
@@ -111,7 +116,6 @@ class SpiritActivity : AppCompatActivity() {
         private val icon = itemView.spiritIcon!!
         private val card = itemView.spiritCard!!
         private var imageColor: Int? = null
-
         fun load(item: Spirit?) {
             icon.gone()
             name.text = item?.name
@@ -142,4 +146,5 @@ class SpiritActivity : AppCompatActivity() {
                 }
         }
     }
+    //------------------------------------------------------------------------------------------------------------------------------------------------
 }
