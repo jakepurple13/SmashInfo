@@ -47,8 +47,10 @@ class SpiritActivity : AppCompatActivity() {
             .textChange()
             .debounce(500)
             .collectOnUi { search ->
-                if (search.isNullOrBlank()) spiritGameRV.adapter = adapter
-                else {
+                if (search.isNullOrBlank()) {
+                    spiritGameRV.adapter = adapter
+                    searchAdapter.setListNotify(emptyList())
+                } else {
                     if (spiritGameRV.adapter != searchAdapter) spiritGameRV.adapter = searchAdapter
                     spiritList
                         ?.filter { it.name.contains(search, true) || it.game.contains(search, true) || "${it.id}".contains(search) }
@@ -64,6 +66,7 @@ class SpiritActivity : AppCompatActivity() {
                 ?.groupBy { GameType(it.game, it.iconUrl) }
                 .orEmpty()
                 .toList()
+                .sortedByDescending { it.second.size }
             runOnUiThread { adapter.addItems(spirits) }
         }
     }
@@ -111,8 +114,8 @@ class SpiritActivity : AppCompatActivity() {
 
     class SpiritHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image = itemView.spiritImage!!
-        val name = itemView.spiritName!!
-        val id = itemView.spiritId!!
+        private val name = itemView.spiritName!!
+        private val id = itemView.spiritId!!
         private val icon = itemView.spiritIcon!!
         private val card = itemView.spiritCard!!
         private var imageColor: Int? = null
@@ -120,6 +123,8 @@ class SpiritActivity : AppCompatActivity() {
             icon.gone()
             name.text = item?.name
             id.text = "${item?.id}"
+            Glide.with(itemView).clear(image)
+            image.setImageDrawable(null)
             Glide.with(itemView)
                 .asBitmap()
                 .load(item?.imageUrl)
