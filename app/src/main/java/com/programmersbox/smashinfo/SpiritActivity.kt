@@ -47,7 +47,7 @@ class SpiritActivity : AppCompatActivity() {
                 if (search.isNullOrBlank()) spiritGameRV.adapter = adapter
                 else {
                     spiritList
-                        ?.filter { it.name.contains(search, true) || it.game.contains(search, true) }
+                        ?.filter { it.name.contains(search, true) || it.game.contains(search, true) || "${it.id}".contains(search) }
                         ?.let(searchAdapter::setListNotify)
                     if (spiritGameRV.adapter != searchAdapter) spiritGameRV.adapter = searchAdapter
                 }
