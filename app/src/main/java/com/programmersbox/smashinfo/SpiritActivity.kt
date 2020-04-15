@@ -72,14 +72,18 @@ class SpiritActivity : AppCompatActivity() {
 
     private fun loadSpirits() {
         GlobalScope.launch {
-            val spirits = SpiritApi.getAllSpirits()
-                ?.map(Spirits::toSpirit)?.also { spiritList = it }
-                ?.groupBy { GameType(it.game, it.iconUrl) }
-                .orEmpty()
-                .toList()
-            runOnUiThread { adapter.addItems(spirits) }
-            runOnUiThread { sortLayout.check(idSort.id) }
-            runOnUiThread { spiritCount.text = "${spiritList?.size}" }
+            try {
+                val spirits = SpiritApi.getAllSpirits()
+                    ?.map(Spirits::toSpirit)?.also { spiritList = it }
+                    ?.groupBy { GameType(it.game, it.iconUrl) }
+                    .orEmpty()
+                    .toList()
+                runOnUiThread { adapter.addItems(spirits) }
+                runOnUiThread { sortLayout.check(idSort.id) }
+            } catch(e: Exception) {
+            } finally {
+                runOnUiThread { spiritCount.text = "${spiritList?.size ?: 0}" }
+            }
         }
     }
 
