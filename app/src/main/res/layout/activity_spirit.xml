@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SpiritActivity">
+    tools:context=".SpiritActivity"
+    tools:ignore="HardcodedText">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,6 +60,55 @@
                         android:hint="Search Spirits"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/sortText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/sortLayout"
+                    android:layout_alignBottom="@id/sortLayout"
+                    android:layout_marginHorizontal="5dp"
+                    android:gravity="center"
+                    android:text="Sort By:" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/sortLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/search_layout"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_toEndOf="@id/sortText"
+                    app:checkedChip="@id/sizeSort"
+                    app:chipSpacing="5dp"
+                    app:singleLine="true"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sizeSort"
+                        android:checkable="true"
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/idSort"
+                        android:checkable="true"
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Spirit ID" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/randomSort"
+                        android:checkable="true"
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Random" />
+
+                </com.google.android.material.chip.ChipGroup>
 
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

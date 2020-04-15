@@ -15,6 +15,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.programmersbox.dragswipe.DragSwipeAdapter
+import com.programmersbox.dragswipe.shuffleItems
+import com.programmersbox.flowutils.checked
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
 import com.programmersbox.flowutils.textChange
@@ -57,6 +59,14 @@ class SpiritActivity : AppCompatActivity() {
                         ?.let(searchAdapter::setListNotify)
                 }
             }
+
+        sortLayout.isSingleSelection = true
+        sortLayout.isSingleLine = true
+        
+
+        sizeSort.setOnCheckedChangeListener { _, b -> if (b) adapter.setListNotify(adapter.dataList.sortedByDescending { it.second.size }) }
+        idSort.setOnCheckedChangeListener { _, b -> if (b) adapter.setListNotify(adapter.dataList.sortedBy { it.second.first().id }) }
+        randomSort.setOnCheckedChangeListener { _, b -> if(b) adapter.shuffleItems() }
     }
 
     private fun loadSpirits() {
@@ -68,6 +78,7 @@ class SpiritActivity : AppCompatActivity() {
                 .toList()
                 .sortedByDescending { it.second.size }
             runOnUiThread { adapter.addItems(spirits) }
+            runOnUiThread { sortLayout.check(sizeSort.id) }
         }
     }
 
