@@ -65,58 +65,93 @@
                     android:id="@+id/sortText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/sortLayout"
-                    android:layout_alignBottom="@id/sortLayout"
+                    android:layout_alignTop="@id/sortScroll"
+                    android:layout_alignBottom="@id/sortScroll"
                     android:layout_marginHorizontal="5dp"
                     android:gravity="center"
                     android:text="Sort By:" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/sortLayout"
+                <HorizontalScrollView
+                    android:id="@+id/sortScroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/search_layout"
                     android:layout_marginHorizontal="5dp"
+                    android:layout_toStartOf="@id/spiritCount"
                     android:layout_toEndOf="@id/sortText"
-                    app:checkedChip="@id/idSort"
-                    app:chipSpacing="5dp"
-                    app:singleLine="true"
-                    app:selectionRequired="true"
-                    app:singleSelection="true">
+                    android:scrollbars="horizontal">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/idSort"
-                        android:checkable="true"
-                        android:checked="false"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sortLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Spirit ID" />
+                        android:overScrollMode="ifContentScrolls"
+                        android:scrollbars="horizontal"
+                        app:checkedChip="@id/idSort"
+                        app:chipSpacing="5dp"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sizeSort"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Size" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/idSort"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="false"
+                            android:text="Spirit ID"
+                            app:chipStrokeColor="@color/colorAccent"
+                            app:chipStrokeWidth="1dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/nameSort"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/sizeSort"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="false"
+                            android:text="Size"
+                            app:chipStrokeColor="@color/colorAccent"
+                            app:chipStrokeWidth="1dp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/randomSort"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Random" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/nameSort"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="false"
+                            android:text="Name"
+                            app:chipStrokeColor="@color/colorAccent"
+                            app:chipStrokeWidth="1dp" />
 
-                </com.google.android.material.chip.ChipGroup>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/randomSort"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="false"
+                            android:text="Random"
+                            app:chipStrokeColor="@color/colorAccent"
+                            app:chipStrokeWidth="1dp" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/spiritCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/sortScroll"
+                    android:layout_alignBottom="@id/sortScroll"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginHorizontal="5dp"
+                    android:gravity="center"
+                    tools:text="1410" />
 
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

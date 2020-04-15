@@ -79,6 +79,7 @@ class SpiritActivity : AppCompatActivity() {
                 .toList()
             runOnUiThread { adapter.addItems(spirits) }
             runOnUiThread { sortLayout.check(idSort.id) }
+            runOnUiThread { spiritCount.text = "${spiritList?.size}" }
         }
     }
 
