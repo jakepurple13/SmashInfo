@@ -117,19 +117,23 @@ class SpiritActivity : AppCompatActivity() {
                 .collectOnUi {
                     val itemList = item.second.map(Spirit::id).nonBreakingRanges().toMutableList()
                     if (itemList.size != 1) itemList.add(item.second.map(Spirit::id).toMutableList())
-                    MaterialAlertDialogBuilder(context)
-                        .setTitle("${item.first.name} Spirit Ids")
-                        .setItems(itemList.map { "${it.first()}-${it.last()}" }.toTypedArray()) { _, index ->
-                            MaterialAlertDialogBuilder(context)
-                                .setCustomTitle(R.layout.character_custom_title) { charName.text = item.first.name }
-                                .setView(R.layout.spirit_game_list_layout) {
-                                    spiritGameListRV.adapter = SpiritAdapter(item.second.filter { it.id in itemList[index] }.toMutableList(), context)
-                                }
-                                .show()
-                        }
-                        .show()
+                    if (itemList.size == 1) {
+                        spiritListShow(item.second.toMutableList(), item.first.name)
+                    } else {
+                        MaterialAlertDialogBuilder(context)
+                            .setTitle("${item.first.name} Spirit Ids")
+                            .setItems(itemList.map { "${it.first()}-${it.last()}" }.toTypedArray()) { _, index ->
+                                spiritListShow(item.second.filter { it.id in itemList[index] }.toMutableList(), item.first.name)
+                            }
+                            .show()
+                    }
                 }
         }
+
+        private fun spiritListShow(spirits: MutableList<Spirit>, name: String) = MaterialAlertDialogBuilder(context)
+            .setCustomTitle(R.layout.character_custom_title) { charName.text = name }
+            .setView(R.layout.spirit_game_list_layout) { spiritGameListRV.adapter = SpiritAdapter(spirits, context) }
+            .show()
 
         private fun List<Int>.nonBreakingRanges() = sortedBy { it }.let { list ->
             var lastRange = mutableListOf<Int>()
@@ -177,7 +181,7 @@ class SpiritActivity : AppCompatActivity() {
                 .asBitmap()
                 .load(item?.imageUrl)
                 .into(object : CustomTarget<Bitmap>() {
-                    override fun onLoadCleared(placeholder: Drawable?) {}
+                    override fun onLoadCleared(placeholder: Drawable?) = image.setImageDrawable(placeholder)
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         image.setImageBitmap(resource)
                         Palette.from(resource).generate().dominantSwatch?.rgb?.let {
