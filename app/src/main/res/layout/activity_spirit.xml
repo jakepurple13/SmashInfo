@@ -101,6 +101,14 @@
                         android:text="Spirit ID" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/nameSort"
+                        android:checkable="true"
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name" />
+
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/randomSort"
                         android:checkable="true"
                         android:checked="false"

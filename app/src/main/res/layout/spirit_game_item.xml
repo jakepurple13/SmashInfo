@@ -25,6 +25,7 @@
             style="@style/ColorText.Digit"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:textSize="35sp"
             android:layout_marginHorizontal="5dp"
             android:gravity="start|center"
             app:layout_constraintBottom_toBottomOf="@id/spiritGameIcon"
@@ -43,6 +44,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="100" />
+
+        <TextView
+            android:id="@+id/spiritGameIds"
+            style="@style/ColorText.Digit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="1-100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -16,7 +16,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.programmersbox.dragswipe.DragSwipeAdapter
 import com.programmersbox.dragswipe.shuffleItems
-import com.programmersbox.flowutils.checked
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
 import com.programmersbox.flowutils.textChange
@@ -62,11 +61,11 @@ class SpiritActivity : AppCompatActivity() {
 
         sortLayout.isSingleSelection = true
         sortLayout.isSingleLine = true
-        
 
         sizeSort.setOnCheckedChangeListener { _, b -> if (b) adapter.setListNotify(adapter.dataList.sortedByDescending { it.second.size }) }
         idSort.setOnCheckedChangeListener { _, b -> if (b) adapter.setListNotify(adapter.dataList.sortedBy { it.second.first().id }) }
-        randomSort.setOnCheckedChangeListener { _, b -> if(b) adapter.shuffleItems() }
+        nameSort.setOnCheckedChangeListener { _, b -> if (b) adapter.setListNotify(adapter.dataList.sortedBy { it.first.name }) }
+        randomSort.setOnCheckedChangeListener { _, b -> if (b) adapter.shuffleItems() }
     }
 
     private fun loadSpirits() {
@@ -94,6 +93,7 @@ class SpiritActivity : AppCompatActivity() {
         override fun SpiritGameHolder.onBind(item: Pair<GameType, List<Spirit>>, position: Int) {
             name.text = item.first.name
             sizeText.text = item.second.size.toString()
+            ids.text = item.second.let { "${it.first().id}-${it.last().id}" }
             Glide.with(itemView)
                 .load(item.first.icon)
                 .into(icon)
@@ -113,6 +113,7 @@ class SpiritActivity : AppCompatActivity() {
         val name = itemView.spiritGameName!!
         val icon = itemView.spiritGameIcon!!
         val sizeText = itemView.spiritGameSize!!
+        val ids = itemView.spiritGameIds!!
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------------
