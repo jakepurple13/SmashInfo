@@ -78,19 +78,11 @@
                     android:layout_below="@id/search_layout"
                     android:layout_marginHorizontal="5dp"
                     android:layout_toEndOf="@id/sortText"
-                    app:checkedChip="@id/sizeSort"
+                    app:checkedChip="@id/idSort"
                     app:chipSpacing="5dp"
                     app:singleLine="true"
                     app:selectionRequired="true"
                     app:singleSelection="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sizeSort"
-                        android:checkable="true"
-                        android:checked="false"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Size" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/idSort"
@@ -99,6 +91,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Spirit ID" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sizeSort"
+                        android:checkable="true"
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/nameSort"

@@ -38,4 +38,39 @@ class ExampleUnitTest {
         val f1 = f?.groupBy { it.series }
         println(f1?.entries?.joinToString("\n") { "${it.key} has ${it.value.size}" })
     }
+
+    @Test
+    fun other4() {
+        val a = intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 1310, 1311)
+        val nonBreakingRanges = a
+            .map { it.toLong() }
+            .let { list ->
+                var lastRange = mutableListOf<Long>()
+                list.map {
+                    val previousElement = lastRange.lastOrNull() ?: it
+                    if (it == previousElement + 1) {
+                        lastRange.add(it)
+                    } else {
+                        lastRange = mutableListOf(it)
+                    }
+                    lastRange
+                }.distinct()
+            }
+        println(nonBreakingRanges)
+    }
+
+    /*fun List<Int>.nonBreakingRanges() = map { it.toLong() }
+        .let { list ->
+            var lastRange = mutableListOf<Long>()
+            list.map {
+                val previousElement = lastRange.lastOrNull() ?: it
+                if (it == previousElement + 1) {
+                    lastRange.add(it)
+                } else {
+                    lastRange = mutableListOf(it)
+                }
+                lastRange
+            }.distinct()
+        }*/
+
 }

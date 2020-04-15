@@ -1,6 +1,7 @@
 package com.programmersbox.smashinfo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -18,6 +19,7 @@ import com.programmersbox.dragswipe.DragSwipeAdapter
 import com.programmersbox.dragswipe.shuffleItems
 import com.programmersbox.flowutils.clicks
 import com.programmersbox.flowutils.collectOnUi
+import com.programmersbox.flowutils.longClicks
 import com.programmersbox.flowutils.textChange
 import com.programmersbox.helpfulutils.*
 import com.programmersbox.loggingutils.Loged
@@ -75,9 +77,8 @@ class SpiritActivity : AppCompatActivity() {
                 ?.groupBy { GameType(it.game, it.iconUrl) }
                 .orEmpty()
                 .toList()
-                .sortedByDescending { it.second.size }
             runOnUiThread { adapter.addItems(spirits) }
-            runOnUiThread { sortLayout.check(sizeSort.id) }
+            runOnUiThread { sortLayout.check(idSort.id) }
         }
     }
 
@@ -90,6 +91,7 @@ class SpiritActivity : AppCompatActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpiritGameHolder =
             SpiritGameHolder(context.layoutInflater.inflate(R.layout.spirit_game_item, parent, false))
 
+        @SuppressLint("SetTextI18n")
         override fun SpiritGameHolder.onBind(item: Pair<GameType, List<Spirit>>, position: Int) {
             name.text = item.first.name
             sizeText.text = item.second.size.toString()
@@ -98,15 +100,44 @@ class SpiritActivity : AppCompatActivity() {
                 .load(item.first.icon)
                 .into(icon)
             itemView
-                .clicks()
+                .longClicks()
                 .collectOnUi {
                     MaterialAlertDialogBuilder(context)
                         .setCustomTitle(R.layout.character_custom_title) { charName.text = item.first.name }
                         .setView(R.layout.spirit_game_list_layout) { spiritGameListRV.adapter = SpiritAdapter(item.second.toMutableList(), context) }
                         .show()
                 }
+            itemView
+                .clicks()
+                .collectOnUi {
+                    val itemList = item.second.map(Spirit::id).nonBreakingRanges().toMutableList()
+                    if (itemList.size != 1) itemList.add(item.second.map(Spirit::id).toMutableList())
+                    MaterialAlertDialogBuilder(context)
+                        .setTitle("${item.first.name} Spirit Ids")
+                        .setItems(itemList.map { "${it.first()}-${it.last()}" }.toTypedArray()) { _, index ->
+                            MaterialAlertDialogBuilder(context)
+                                .setCustomTitle(R.layout.character_custom_title) { charName.text = item.first.name }
+                                .setView(R.layout.spirit_game_list_layout) {
+                                    spiritGameListRV.adapter = SpiritAdapter(item.second.filter { it.id in itemList[index] }.toMutableList(), context)
+                                }
+                                .show()
+                        }
+                        .show()
+                }
         }
 
+        private fun List<Int>.nonBreakingRanges() = let { list ->
+            var lastRange = mutableListOf<Int>()
+            list.map {
+                val previousElement = lastRange.lastOrNull() ?: it
+                if (it == previousElement + 1) {
+                    lastRange.add(it)
+                } else {
+                    lastRange = mutableListOf(it)
+                }
+                lastRange
+            }.distinct()
+        }
     }
 
     class SpiritGameHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
