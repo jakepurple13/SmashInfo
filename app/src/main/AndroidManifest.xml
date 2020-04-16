@@ -7,9 +7,9 @@
     <application
         android:name=".SmashApp"
         android:allowBackup="true"
-        android:icon="@drawable/smashlogo"
+        android:icon="@drawable/smashball"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/smashlogo"
+        android:roundIcon="@drawable/smashball"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SpiritActivity">
