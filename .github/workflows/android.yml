@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: apk
-          path: smashfigher/build/outputs/apk/debug/smashfighter-debug.apk 
+          path: smashfigher/build/outputs/apk/debug/smashfigher-debug.apk 
   release:
     name: Release APK
     needs: apk
@@ -56,5 +56,5 @@ jobs:
          name: Release ${{ env.VERSION_TAG }}
          files: |
             apk/app-debug.apk
-            apk/smashfighter-debug.apk
+            apk/smashfigher-debug.apk
       
