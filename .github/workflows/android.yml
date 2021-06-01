@@ -56,5 +56,5 @@ jobs:
          name: Release ${{ env.VERSION_TAG }}
          files: |
             apk/app-debug.apk
-            smashapk/app-debug
+            smashapk/app-debug.apk
       
