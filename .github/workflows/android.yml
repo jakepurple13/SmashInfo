@@ -25,6 +25,11 @@ jobs:
         with:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk 
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: smashapk
+          path: smashfigher/build/outputs/apk/debug/app-debug.apk 
   release:
     name: Release APK
     needs: apk
@@ -51,4 +56,5 @@ jobs:
          name: Release ${{ env.VERSION_TAG }}
          files: |
             apk/app-debug.apk
+            smashapk/app-debug
       
