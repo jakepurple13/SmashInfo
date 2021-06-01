@@ -50,5 +50,5 @@ jobs:
          tag_name: ${{ env.VERSION_TAG }}
          name: Release ${{ env.VERSION_TAG }}
          files: |
-            app-debug-${{ env.VERSION_TAG }}.apk
+            app-debug.apk
       
